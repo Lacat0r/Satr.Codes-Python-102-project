@@ -1,0 +1,63 @@
+import datetime
+
+oldestAge = 0
+oldest = ""
+youngestAge = 0
+youngest = ""
+i = 0
+
+Num = input("How many names you would like to enter?: ")
+print("\n")
+
+while i <= int(Num) - 1:
+    i += 1
+
+    print("Enter your name and your birth day as shown below")
+
+    nameAndBD = input("(Name,dd-mm-yyyy): ")
+    print("\n")
+
+    indexOfDay = nameAndBD.index('-')
+    indexOfName = (nameAndBD.index(","))
+
+    name = (nameAndBD[0:indexOfName])
+    year = int(nameAndBD[-4:])
+    month = int(nameAndBD[indexOfDay + 1:-5])
+    day = int(nameAndBD[indexOfName + 1:indexOfDay])  # IndexofName is the , and I added +1 just so the , dont appear
+
+    if year < 1 or year > 2022 or month < 1 or month > 12 or day < 1 or day > 31 or (
+            (year < 1 or year > 2022) and (month < 1 or month > 12) and (day < 1 or day > 31)) or (
+            (year < 1 or year > 2022) and (month < 1 or month > 12)) or (
+            (year < 1 or year > 2022) and (day < 1 or day > 31)) or (
+            (month < 1 or month > 12) and (day < 1 or day > 31)):
+        print("Invalid date for " + name)
+        break
+
+    else:
+        date = datetime.date(int(year), int(month),
+                             int(day))  # to find identify the entered birth date to find the day the user was born
+        BornDay = date.strftime("%A")  # to know which day the user was born
+
+        now = datetime.datetime.today()
+        nowYear = int(now.year)  # So we can now which year is this
+        yearsOld = nowYear - year  # to find out how old the user is
+        if yearsOld > oldestAge:
+            oldest = name
+            oldestAge = yearsOld
+        elif yearsOld <= oldestAge:
+            yougnest = name
+            youngestAge = yearsOld
+
+        print(name + " is " + str(yearsOld) + " years old and she/he was born on " + BornDay)
+        print("\n")
+
+if i > 1:
+    if oldestAge > 0:
+        print("Oldest is " + oldest + " with " + str(oldestAge) + " years old")
+
+        print("Youngest is " + youngest + " with " + str(youngestAge) + " years old")
+
+else:
+    print("There is no youngest or oldest\n")
+
+print("Total entered names is " + str(i))
